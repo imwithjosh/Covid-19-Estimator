@@ -20,6 +20,6 @@
       severeImpact.currentlyInfected = data.reportedCases * 50;
       impact.infectionsByRequestedTime = impact.currentlyInfected * (2 ** Math.floor(data.timeToElaspe / 3))
       severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * (2 ** Math.floor(data.timeToElaspe /3))
-      return {data: input, impact: impact, severeImpact: severeImpact}
+      return { data: input, impact: impact, severeImpact: severeImpact } 
     }
     export default covid19ImpactEstimator;
