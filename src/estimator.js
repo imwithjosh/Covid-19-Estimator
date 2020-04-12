@@ -1,17 +1,16 @@
 // const input = {
 //     region:{
 //     name: 'Africa',
-//     avAge:19.7,
+//     avAge: 19.7,
 //     avgDailyIncomeInUSD: 5,
-//     avgDailyIncomePopulation:0.71
+//     avgDailyIncomePopulation: 0.71
 //     },
 //     periodType: 'days',
-//     timeToELapse:58,
-//     reportedCases:674,
-//     population:66622705,
-//     totalHospitalBeds:1380614
+//     timeToELapse: 58,
+//     reportedCases: 674,
+//     population: 66622705,
+//     totalHospitalBeds: 1380614
 //     };
-    
     const covid19ImpactEstimator = (data) => {
     const input = data;
     const impact = {}
@@ -21,10 +20,6 @@
       severeImpact.currentlyInfected = data.reportedCases * 50;
       impact.infectionsByRequestedTime = impact.currentlyInfected * (2 ** Math.floor(data.timeToElaspe / 3))
       severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * (2 ** Math.floor(data.timeToElaspe /3))
-      return {data: input,
-             impact: impact,
-             severeImpact: severeImpact
-             }
+      return {data: input, impact: impact, severeImpact: severeImpact}
     }
-    
     export default covid19ImpactEstimator;
