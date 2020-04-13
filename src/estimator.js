@@ -22,9 +22,9 @@ const covid19ImpactEstimator = (data) => {
   // Challenge1
   let numDays = data.timeToElapse;
   if (data.periodType === 'weeks') {
-    numDays = numDays * 7
+    numDays = numDays * 7;
   } else if (data.periodType === 'months') {
-    numDays = numDays * 30
+    let numDays = numDays * 30;
   }
   impact.currentlyInfected = data.reportedCases * 10;
   severeImpact.currentlyInfected = data.reportedCases * 50;
