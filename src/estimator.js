@@ -27,4 +27,5 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected
     * (2 ** Math.floor(data.timeToElaspe / 3));
   return output;
+};
 export default covid19ImpactEstimator;
