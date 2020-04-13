@@ -15,6 +15,10 @@ const covid19ImpactEstimator = (data) => {
   const input = data;
   const impact = {};
   const severeImpact = {};
+  const output = {};
+  output.data = input;
+  output.impact = impact;
+  output.severeImpact = severeImpact;
   // Challenge1
   impact.currentlyInfected = data.reportedCases * 10;
   severeImpact.currentlyInfected = data.reportedCases * 50;
@@ -22,6 +26,5 @@ const covid19ImpactEstimator = (data) => {
     * (2 ** Math.floor(data.timeToElaspe / 3));
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected
     * (2 ** Math.floor(data.timeToElaspe / 3));
-  return { data: input, impact: impact, severeImpact: severeImpact };
-};
+  return output;
 export default covid19ImpactEstimator;
