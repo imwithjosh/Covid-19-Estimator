@@ -1,4 +1,4 @@
-const input = {
+const data = {
   region: {
     name: 'Africa',
     avAge: 19.7,
@@ -24,7 +24,7 @@ const covid19ImpactEstimator = (data) => {
   if (data.periodType === 'weeks') {
     numDays = numDays * 7;
   } else if (data.periodType === 'months') {
-    let numDays = numDays * 30;
+     numDays = numDays * 30;
   }
   impact.currentlyInfected = data.reportedCases * 10;
   severeImpact.currentlyInfected = data.reportedCases * 50;
