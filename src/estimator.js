@@ -17,11 +17,15 @@ const covid19ImpactEstimator = (data) => {
     currentlyInfected: currInfSevImpact
   };
 
+  let days;
   const chkDuration = (period, duration) => {
     let result = 2 ** Math.floor(duration / 3);
+    days = duration;
     if (period === 'weeks') {
+      days = duration * 7;
       result = 2 ** Math.floor((duration * 7) / 3);
     } else if (period === 'months') {
+      days = duration * 30;
       result = Math.floor(2 ** ((duration * 30) / 3));
     }
     return result;
@@ -30,23 +34,31 @@ const covid19ImpactEstimator = (data) => {
 
   const impactInfectionsBy = currInfImpact * getDuration;
   impactObj.infectionsByRequestedTime = impactInfectionsBy;
-  const severeImpactInfectonsBy = currInfSevImpact * getDuration;
-  severeImpactObj.infectionsByRequestedTime = severeImpactInfectonsBy;
+  const severeImpactInfectionsBy = currInfSevImpact * getDuration;
+  severeImpactObj.infectionsByRequestedTime = severeImpactInfectionsBy;
 
-  const impactSevereCases = impactObj.infectionsByRequestedTime * 0.15;
-  impactObj.severeCasesByRequestedTime = Math.round(impactSevereCases);
-  const severeImpactSevereCases = severeImpactObj.infectionsByRequestedTime * 0.15;
-  severeImpactObj.severeCasesByRequestedTime = Math.round(severeImpactSevereCases);
+  let impactSevereCases = impactObj.infectionsByRequestedTime * 0.15;
+  impactSevereCases = impactSevereCases < 0 ? Math.ceil(
+    impactSevereCases
+  ) : Math.floor(impactSevereCases);
+  impactObj.severeCasesByRequestedTime = (impactSevereCases);
+
+  let severeImpactSevereCases = severeImpactObj.infectionsByRequestedTime * 0.15;
+  severeImpactSevereCases = severeImpactSevereCases < 0 ? Math.ceil(
+    severeImpactSevereCases
+  ) : Math.floor(severeImpactSevereCases);
+
+  severeImpactObj.severeCasesByRequestedTime = severeImpactSevereCases;
 
   let impactHospBeds = (
     totalHospitalBeds * 0.35 - impactObj.severeCasesByRequestedTime
   );
-  impactHospBeds = impactHospBeds < 0 ? Math.round(impactHospBeds) : Math.floor(impactHospBeds);
+  impactHospBeds = impactHospBeds < 0 ? Math.ceil(impactHospBeds) : Math.floor(impactHospBeds);
   impactObj.hospitalBedsByRequestedTime = impactHospBeds;
 
   let sevImpactHospBeds = (totalHospitalBeds * 0.35
     - severeImpactObj.severeCasesByRequestedTime);
-  sevImpactHospBeds = sevImpactHospBeds < 0 ? Math.round(
+  sevImpactHospBeds = sevImpactHospBeds < 0 ? Math.ceil(
     sevImpactHospBeds
   ) : Math.floor(sevImpactHospBeds);
   severeImpactObj.hospitalBedsByRequestedTime = sevImpactHospBeds;
@@ -66,19 +78,19 @@ const covid19ImpactEstimator = (data) => {
   );
 
   const dFlightImpact = Math.floor(
-    (impactInfectionsBy
+    (impactObj.infectionsByRequestedTime
       * region.avgDailyIncomePopulation
       * region.avgDailyIncomeInUSD)
-    / getDuration
+    / days
   );
   impactObj.dollarsInFlight = dFlightImpact;
   const dFlightSevere = Math.floor(
-    (severeImpactInfectonsBy
+    (severeImpactObj.infectionsByRequestedTime
       * region.avgDailyIncomePopulation
       * region.avgDailyIncomeInUSD)
-    / getDuration
+    / days
   );
-  severeImpactObj.dollarsInFlight = Number(dFlightSevere);
+  severeImpactObj.dollarsInFlight = dFlightSevere;
 
   return {
     impact: impactObj,
